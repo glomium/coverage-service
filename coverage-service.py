@@ -57,6 +57,21 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-q', '--quiet',
+        help="Be quiet",
+        action="store_const",
+        dest="loglevel",
+        const=logging.WARNING,
+        default=logging.INFO,
+    )
+    parser.add_argument(
+        '-d', '--debug',
+        help="Debugging statements",
+        action="store_const",
+        dest="loglevel",
+        const=logging.DEBUG,
+    )
     parser.add_argument('port', action='store',
                         default=8000, type=int,
                         nargs='?',
