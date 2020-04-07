@@ -28,7 +28,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self):
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-type", "application/octet-stream")
-        self.send_header("Content-Length", str(os.path.getsize(self.server.report.base_filename())))
+        p = self.server.report.base_filename()
+        if os.path.exists(p):
+            self.send_header("Content-Length", str(os.path.getsize(p)))
+        else:
+            self.send_header("Content-Length", "0")
         self.end_headers()
 
     def do_GET(self):
@@ -49,6 +53,7 @@ class Handler(BaseHTTPRequestHandler):
             fp.write(data)
             fp.flush()
             report = coverage.CoverageData(basename=fp.name)
+            print("added: %s" % report.measured_files())
             self.server.report.update(report)
 
         self.send_response(HTTPStatus.OK)
