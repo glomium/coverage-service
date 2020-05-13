@@ -53,7 +53,6 @@ class Handler(BaseHTTPRequestHandler):
             fp.write(data)
             fp.flush()
             report = coverage.CoverageData(basename=fp.name)
-            print("added: %s" % report.measured_files())
             self.server.report.update(report)
 
         self.send_response(HTTPStatus.OK)
