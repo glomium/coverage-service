@@ -1,5 +1,9 @@
 ARG UBUNTU=rolling
-FROM ubuntu:$UBUNTU as basestage
+FROM ubuntu:$UBUNTU
+MAINTAINER Sebastian Braun <sebastian.braun@fh-aachen.de>
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV LANG en_US.utf8
 
 RUN apt-get update && apt-get install --no-install-recommends -y -q \
     build-essential \
